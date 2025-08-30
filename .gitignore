@@ -1,0 +1,38 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Bỏ thư mục chapters và covers trong public
+/public/chapters/
+/public/covers/
+
+# Bỏ thư mục data trong src
+/src/data/
+
+# Bỏ file importTruyen.mjs
+/importTruyen.mjs
+
+# Environment variables
+.env
+.env.*
