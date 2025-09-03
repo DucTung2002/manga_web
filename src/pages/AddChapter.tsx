@@ -5,6 +5,7 @@ import { db } from "@/lib/firebase";
 import axios from "axios";
 import { Button } from "@/components/ui/Button";
 import { Save, Upload, Trash } from "lucide-react";
+import { Helmet } from 'react-helmet-async';
 
 const AddChapter = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -183,96 +184,101 @@ const AddChapter = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-black text-center break-words">
-          Thêm chapter - {comicTitle}
-        </h1>
-      </div>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-black font-medium">Tiêu đề chapter</label>
-          <input
-            type="text"
-            value={chapterTitle}
-            onChange={(e) => setChapterTitle(e.target.value)}
-            className="w-full p-2 border rounded bg-white text-black outline-none focus:outline-none"
-          />
+    <>
+      <Helmet>
+        <title>Thêm Chapter - {comicTitle}</title>
+      </Helmet>
+      <div className="p-6 max-w-4xl mx-auto">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-black text-center break-words">
+            Thêm chapter - {comicTitle}
+          </h1>
         </div>
-        <div>
-          <label className="block text-black font-medium">Ảnh trang</label>
-          <div className="flex flex-col gap-4">
-            {previewImages.length > 0 && (
-              <div className="grid grid-cols-1 gap-4 max-h-[600px] overflow-y-auto">
-                {previewImages.map((src, index) => (
-                  <div key={index} className="relative">
-                    <img
-                      src={src}
-                      alt={`Preview ${index + 1}`}
-                      className="w-full max-w-[600px] h-auto object-contain rounded cursor-pointer mx-auto"
-                      onError={(e) => { e.currentTarget.src = "https://via.placeholder.com/150"; }}
-                      onClick={() => handleImageClick(src)}
-                    />
-                    <Button
-                      className="absolute top-2 right-2 bg-red-500 text-white hover:bg-red-600 p-1 rounded"
-                      onClick={() => {
-                        setImages(prev => prev.filter((_, i) => i !== index));
-                        setPreviewImages(prev => prev.filter((_, i) => i !== index));
-                      }}
-                    >
-                      <Trash size={18} />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            )}
-            <div className="flex items-center gap-4">
-              <div className="flex-1">
-                <div className="w-full p-2 border rounded bg-white text-black">
-                  {images.length > 0 ? `${images.length} ảnh đã chọn` : "Chưa chọn ảnh"}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-black font-medium">Tiêu đề chapter</label>
+            <input
+              type="text"
+              value={chapterTitle}
+              onChange={(e) => setChapterTitle(e.target.value)}
+              className="w-full p-2 border rounded bg-white text-black outline-none focus:outline-none"
+            />
+          </div>
+          <div>
+            <label className="block text-black font-medium">Ảnh trang</label>
+            <div className="flex flex-col gap-4">
+              {previewImages.length > 0 && (
+                <div className="grid grid-cols-1 gap-4 max-h-[600px] overflow-y-auto">
+                  {previewImages.map((src, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={src}
+                        alt={`Preview ${index + 1}`}
+                        className="w-full max-w-[600px] h-auto object-contain rounded cursor-pointer mx-auto"
+                        onError={(e) => { e.currentTarget.src = "https://via.placeholder.com/150"; }}
+                        onClick={() => handleImageClick(src)}
+                      />
+                      <Button
+                        className="absolute top-2 right-2 bg-red-500 text-white hover:bg-red-600 p-1 rounded"
+                        onClick={() => {
+                          setImages(prev => prev.filter((_, i) => i !== index));
+                          setPreviewImages(prev => prev.filter((_, i) => i !== index));
+                        }}
+                      >
+                        <Trash size={18} />
+                      </Button>
+                    </div>
+                  ))}
                 </div>
+              )}
+              <div className="flex items-center gap-4">
+                <div className="flex-1">
+                  <div className="w-full p-2 border rounded bg-white text-black">
+                    {images.length > 0 ? `${images.length} ảnh đã chọn` : "Chưa chọn ảnh"}
+                  </div>
+                </div>
+                <Button
+                  type="button"
+                  className="bg-blue-500 text-white hover:bg-blue-600 flex items-center gap-2"
+                  onClick={() => document.getElementById("images-upload")?.click()}
+                >
+                  <Upload size={18} /> Chọn ảnh
+                </Button>
+                <input
+                  id="images-upload"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
               </div>
-              <Button
-                type="button"
-                className="bg-blue-500 text-white hover:bg-blue-600 flex items-center gap-2"
-                onClick={() => document.getElementById("images-upload")?.click()}
-              >
-                <Upload size={18} /> Chọn ảnh
-              </Button>
-              <input
-                id="images-upload"
-                type="file"
-                accept="image/*"
-                multiple
-                className="hidden"
-                onChange={handleImageChange}
-              />
             </div>
           </div>
-        </div>
-        <div className="flex justify-center">
-          <Button
-            type="submit"
-            className="bg-blue-500 text-white hover:bg-blue-600 flex items-center gap-2"
-          >
-            <Save size={18} /> Lưu
-          </Button>
-        </div>
-      </form>
-      {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="relative max-w-4xl">
-            <img src={selectedImage} alt="Full view" className="w-full h-auto" />
+          <div className="flex justify-center">
             <Button
-              className="absolute top-2 right-2 bg-red-500 text-white hover:bg-red-600 p-1 rounded"
-              onClick={() => setSelectedImage(null)}
+              type="submit"
+              className="bg-blue-500 text-white hover:bg-blue-600 flex items-center gap-2"
             >
-              Đóng
+              <Save size={18} /> Lưu
             </Button>
           </div>
-        </div>
-      )}
-    </div>
+        </form>
+        {selectedImage && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center  justify-center z-50">
+            <div className="relative max-w-4xl">
+              <img src={selectedImage} alt="Full view" className="w-full h-auto" />
+              <Button
+                className="absolute top-2 right-2 bg-red-500 text-white hover:bg-red-600 p-1 rounded"
+                onClick={() => setSelectedImage(null)}
+              >
+                Đóng
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

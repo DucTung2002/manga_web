@@ -8,6 +8,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Eye, EyeOff } from "lucide-react";
 import { verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import { Helmet } from 'react-helmet-async';
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
@@ -88,6 +89,9 @@ export const ResetPassword = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Thay đổi mật khẩu</title>
+      </Helmet>
       <Header />
       <Navbar />
       <div className="flex justify-center mt-10">

@@ -9,6 +9,7 @@ import { CategoryTab } from "@/components/layout/CategoryTab";
 import { CardComic } from "@/components/ui/CardComic";
 import { Button } from "@/components/ui/Button";
 import { getTotalViews } from "@/hooks/useTotalViews";
+import { Helmet } from 'react-helmet-async';
 
 interface Chapter {
   title: string;
@@ -332,6 +333,9 @@ export const FindComic = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Tìm kiếm truyện</title>
+      </Helmet>
       <Header />
       <Navbar />
       <main className="max-w-screen-xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-4 gap-6">

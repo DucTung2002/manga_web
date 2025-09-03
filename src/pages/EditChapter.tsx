@@ -5,6 +5,7 @@ import { db } from "@/lib/firebase";
 import axios from "axios";
 import { Button } from "@/components/ui/Button";
 import { ArrowLeft, Save, Upload, Trash } from "lucide-react";
+import { Helmet } from 'react-helmet-async';
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
   state = { hasError: false };
@@ -238,7 +239,11 @@ const EditChapter = () => {
   }
 
   return (
-    <ErrorBoundary>
+    <>
+      <Helmet>
+        <title>Chỉnh sửa chapter - {comicTitle} - {chapter?.title}</title>
+      </Helmet>
+      <ErrorBoundary>
       <form onSubmit={handleSubmit} className="p-6 max-w-4xl mx-auto">
         {error && (
           <div className="mb-4 p-4 bg-red-100 text-red-700 rounded text-center">
@@ -351,6 +356,7 @@ const EditChapter = () => {
         )}
       </form>
     </ErrorBoundary>
+    </>
   );
 };
 

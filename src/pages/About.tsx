@@ -3,6 +3,7 @@ import { Header } from "@/components/layout/Header";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { HistoryTab } from "@/components/layout/HistoryTab";
+import { Helmet } from 'react-helmet-async';
 
 export const About = () => {
   useEffect(() => {
@@ -11,6 +12,9 @@ export const About = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Giới thiệu</title>
+      </Helmet>
       <Header />
       <Navbar />
 

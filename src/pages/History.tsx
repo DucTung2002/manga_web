@@ -7,6 +7,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useHistory } from "@/hooks/useHistory";
 import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { Helmet } from 'react-helmet-async';
 
 const ITEMS_PER_PAGE = 36;
 
@@ -142,6 +143,9 @@ export const History = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <Helmet>
+        <title>Lịch sử đọc truyện</title>
+      </Helmet>
       <Header />
       <Navbar />
 

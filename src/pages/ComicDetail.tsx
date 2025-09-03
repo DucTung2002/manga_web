@@ -11,6 +11,7 @@ import { useHistory } from "@/hooks/useHistory";
 import { useFollow } from "@/hooks/useFollow";
 import type { HistoryItem } from "@/hooks/useHistory";
 import { Button } from "@/components/ui/Button";
+import { Helmet } from 'react-helmet-async';
 
 interface Chapter {
   title: string;
@@ -322,6 +323,9 @@ export const ComicDetail = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{truyen?.title}</title>
+      </Helmet>
       <Header />
       <Navbar />
       <section className="w-full bg-gray-100 px-4 py-6 min-h-screen">

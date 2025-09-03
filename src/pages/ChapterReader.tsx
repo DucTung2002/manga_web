@@ -3,29 +3,13 @@ import { Header } from "@/components/layout/Header";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
-import {
-  Info,
-  Home,
-  List,
-  ChevronLeft,
-  ChevronRight,
-  Heart,
-  X
-} from "lucide-react";
+import { Info, Home, List, ChevronLeft, ChevronRight, Heart, X } from "lucide-react";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useHistory } from "@/hooks/useHistory";
 import { useFollow } from "@/hooks/useFollow";
 import { db } from "@/lib/firebase";
-import {
-  doc,
-  setDoc,
-  increment,
-  collection,
-  getDocs,
-  query,
-  where,
-  serverTimestamp
-} from "firebase/firestore";
+import { doc, setDoc, increment, collection, getDocs, query, where, serverTimestamp } from "firebase/firestore";
+import { Helmet } from 'react-helmet-async';
 
 const NavigationBar = ({
   truyenSlug,
@@ -342,6 +326,9 @@ export const ChapterReader = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{`${truyen.title} - ${currentChapter.title}`}</title>
+      </Helmet>
       <Header />
       <Navbar />
       <div className="bg-black min-h-screen text-white">

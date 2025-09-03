@@ -7,13 +7,9 @@ import { Footer } from "@/components/layout/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, googleProvider, db } from "@/lib/firebase";
 import { Eye, EyeOff } from "lucide-react";
-import {
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  updateProfile,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithPopup, updateProfile, onAuthStateChanged } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import { Helmet } from 'react-helmet-async';
 
 export const Register = () => {
   const [error, setError] = useState<string | null>(null);
@@ -141,6 +137,9 @@ export const Register = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Đăng ký</title>
+      </Helmet>
       <Header />
       <Navbar />
 

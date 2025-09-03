@@ -5,6 +5,7 @@ import { db } from "@/lib/firebase";
 import axios from "axios";
 import { Button } from "@/components/ui/Button";
 import { ArrowLeft, Save, Upload, List } from "lucide-react";
+import { Helmet } from 'react-helmet-async';
 
 interface ComicData {
   title: string;
@@ -234,131 +235,136 @@ const EditComic = () => {
   if (!comic) return <div>Không tìm thấy truyện</div>;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-black text-center break-words">
-          Chỉnh sửa truyện: {comic.title}
-        </h1>
-      </div>
-      <div className="flex justify-between items-center mb-6">
-        <Button
-          className="bg-gray-500 text-white hover:bg-gray-600 flex items-center gap-2"
-          onClick={() => navigate("/dashboard/quan-ly-truyen")}
-        >
-          <ArrowLeft size={18} /> Quay lại
-        </Button>
-        <Button
-          className="bg-green-500 text-white hover:bg-green-600 flex items-center gap-2"
-          onClick={() => navigate(`/dashboard/quan-ly-chapter/${slug}`)}
-        >
-          <List size={18} /> Quản lý chapter
-        </Button>
-      </div>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-black font-medium">Tên truyện</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-            className="w-full p-2 border rounded bg-white text-black outline-none focus:outline-none"
-          />
+    <>
+      <Helmet>
+        <title>Chỉnh sửa truyện: {comic.title}</title>
+      </Helmet>
+      <div className="p-6 max-w-4xl mx-auto">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-black text-center break-words">
+            Chỉnh sửa truyện: {comic.title}
+          </h1>
         </div>
-        <div>
-          <label className="block text-black font-medium">Tác giả</label>
-          <input
-            type="text"
-            name="author"
-            value={formData.author}
-            onChange={handleInputChange}
-            className="w-full p-2 border rounded bg-white text-black outline-none focus:outline-none"
-          />
-        </div>
-        <div>
-          <label className="block text-black font-medium">Trạng thái</label>
-          <input
-            type="text"
-            name="status"
-            value={formData.status}
-            onChange={handleInputChange}
-            className="w-full p-2 border rounded bg-white text-black outline-none focus:outline-none"
-          />
-        </div>
-        <div>
-          <label className="block text-black font-medium">Ảnh bìa</label>
-          <div className="flex items-center gap-4">
-            {previewImage ? (
-              <img
-                src={previewImage}
-                alt="Ảnh bìa"
-                className="w-24 h-24 object-cover rounded"
-                onError={(e) => {
-                  e.currentTarget.src = "https://via.placeholder.com/150";
-                }}
-              />
-            ) : (
-              <div className="w-24 h-24 bg-gray-200 rounded flex items-center text-center justify-center text-gray-500">
-                Không có ảnh
-              </div>
-            )}
-            <div className="flex-1">
-              <div className="w-full p-2 border rounded bg-white text-black">
-                {fileName || "Chưa chọn ảnh"}
-              </div>
-            </div>
-            <Button
-              type="button"
-              className="bg-blue-500 text-white hover:bg-blue-600 flex items-center gap-2"
-              onClick={() => document.getElementById("cover-upload")?.click()}
-            >
-              <Upload size={18} /> Thay ảnh
-            </Button>
-            <input
-              id="cover-upload"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageChange}
-            />
-          </div>
-        </div>
-        <div>
-          <label className="block text-black font-medium">Mô tả</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-            className="w-full p-2 border rounded bg-white text-black outline-none focus:outline-none"
-            rows={4}
-          />
-        </div>
-        <div>
-          <label className="block text-black font-medium mb-2">Thể loại</label>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-            {categories.map((category) => (
-              <div key={category.id} className="flex items-center gap-2 bg-white p-2 rounded border border-gray-200">
-                <input
-                  type="checkbox"
-                  checked={formData.genres.includes(category.name)}
-                  onChange={() => handleGenreToggle(category.name)}
-                  className="h-4 w-4 text-blue-500 !bg-white border-gray-300 rounded focus:ring-0"
-                />
-                <span className="text-black">{category.name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="flex justify-center">
+        <div className="flex justify-between items-center mb-6">
           <Button
-            type="submit"
-            className="bg-blue-500 text-white hover:bg-blue-600 flex items-center gap-2"
+            className="bg-gray-500 text-white hover:bg-gray-600 flex items-center gap-2"
+            onClick={() => navigate("/dashboard/quan-ly-truyen")}
           >
-            <Save size={18} /> Lưu thay đổi
+            <ArrowLeft size={18} /> Quay lại
+          </Button>
+          <Button
+            className="bg-green-500 text-white hover:bg-green-600 flex items-center gap-2"
+            onClick={() => navigate(`/dashboard/quan-ly-chapter/${slug}`)}
+          >
+            <List size={18} /> Quản lý chapter
           </Button>
         </div>
-      </form>
-    </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-black font-medium">Tên truyện</label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded bg-white text-black outline-none focus:outline-none"
+            />
+          </div>
+          <div>
+            <label className="block text-black font-medium">Tác giả</label>
+            <input
+              type="text"
+              name="author"
+              value={formData.author}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded bg-white text-black outline-none focus:outline-none"
+            />
+          </div>
+          <div>
+            <label className="block text-black font-medium">Trạng thái</label>
+            <input
+              type="text"
+              name="status"
+              value={formData.status}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded bg-white text-black outline-none focus:outline-none"
+            />
+          </div>
+          <div>
+            <label className="block text-black font-medium">Ảnh bìa</label>
+            <div className="flex items-center gap-4">
+              {previewImage ? (
+                <img
+                  src={previewImage}
+                  alt="Ảnh bìa"
+                  className="w-24 h-24 object-cover rounded"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://via.placeholder.com/150";
+                  }}
+                />
+              ) : (
+                <div className="w-24 h-24 bg-gray-200 rounded flex items-center text-center justify-center text-gray-500">
+                  Không có ảnh
+                </div>
+              )}
+              <div className="flex-1">
+                <div className="w-full p-2 border rounded bg-white text-black">
+                  {fileName || "Chưa chọn ảnh"}
+                </div>
+              </div>
+              <Button
+                type="button"
+                className="bg-blue-500 text-white hover:bg-blue-600 flex items-center gap-2"
+                onClick={() => document.getElementById("cover-upload")?.click()}
+              >
+                <Upload size={18} /> Thay ảnh
+              </Button>
+              <input
+                id="cover-upload"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-black font-medium">Mô tả</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded bg-white text-black outline-none focus:outline-none"
+              rows={4}
+            />
+          </div>
+          <div>
+            <label className="block text-black font-medium mb-2">Thể loại</label>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {categories.map((category) => (
+                <div key={category.id} className="flex items-center gap-2 bg-white p-2 rounded border border-gray-200">
+                  <input
+                    type="checkbox"
+                    checked={formData.genres.includes(category.name)}
+                    onChange={() => handleGenreToggle(category.name)}
+                    className="h-4 w-4 text-blue-500 !bg-white border-gray-300 rounded focus:ring-0"
+                  />
+                  <span className="text-black">{category.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <Button
+              type="submit"
+              className="bg-blue-500 text-white hover:bg-blue-600 flex items-center gap-2"
+            >
+              <Save size={18} /> Lưu thay đổi
+            </Button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 

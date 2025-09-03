@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/Button";
 import { X } from "lucide-react";
 import { CardComic } from "@/components/ui/CardComic";
 import { getTotalViews } from "@/hooks/useTotalViews";
+import { Helmet } from 'react-helmet-async';
 
 interface Chapter {
   title: string;
@@ -204,6 +205,9 @@ export const FollowComic = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <Helmet>
+        <title>Truyện đang theo dõi</title>
+      </Helmet>
       <Header />
       <Navbar />
       <div className="flex-1 w-full bg-gray-100 px-4 py-6">

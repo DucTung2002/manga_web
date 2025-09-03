@@ -3,14 +3,7 @@ import imageCompression from "browser-image-compression";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc, updateDoc, deleteField } from "firebase/firestore";
 import { onAuthStateChanged, type User, updatePassword, updateProfile } from "firebase/auth";
-import {
-  BookOpen,
-  Lock,
-  LogOut,
-  UserCircle,
-  Eye,
-  EyeOff
-} from "lucide-react";
+import { BookOpen, Lock, LogOut, UserCircle, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Header } from "@/components/layout/Header";
 import { Navbar } from "@/components/layout/Navbar";
@@ -21,6 +14,7 @@ import { useHistory } from "@/hooks/useHistory";
 import { Link, useNavigate } from "react-router-dom";
 import { formatDate } from "@/utils/formatDate";
 import { normalizeSlug } from "@/utils/slug";
+import { Helmet } from 'react-helmet-async';
 
 interface UserData {
   displayName: string;
@@ -336,6 +330,9 @@ export default function UserProfile() {
 
   return (
     <div className="bg-white min-h-screen text-gray-900">
+      <Helmet>
+        <title>Thông tin tài khoản</title>
+      </Helmet>
       <Header />
       <Navbar />
 

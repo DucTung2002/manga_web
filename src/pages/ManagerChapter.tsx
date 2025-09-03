@@ -4,6 +4,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Button } from "@/components/ui/Button";
 import { ArrowLeft, Plus, Edit, Trash, Eye } from "lucide-react";
+import { Helmet } from 'react-helmet-async';
 
 interface ChapterData {
   id: string;
@@ -167,143 +168,148 @@ const ManagerChapter = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-black text-center break-words">
-          Quản lý chapter - {comicTitle}
-        </h1>
-      </div>
-      <div className="flex justify-between items-center mb-6">
-        <Button
-          className="bg-gray-500 text-white hover:bg-gray-600 flex items-center gap-2"
-          onClick={() => navigate(-1)}
-        >
-          <ArrowLeft size={18} /> Quay lại
-        </Button>
-        <Button
-          className="bg-blue-500 text-white hover:bg-blue-600 flex items-center gap-2"
-          onClick={handleAddChapter}
-        >
-          <Plus size={18} /> Thêm chapter mới
-        </Button>
-      </div>
-      <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
-        <thead>
-          <tr className="bg-gray-800 text-white text-center">
-            <th className="p-3">Chapter</th>
-            <th className="p-3">Số trang</th>
-            <th className="p-3">Thao tác</th>
-          </tr>
-        </thead>
-        <tbody>
-          {displayedChapters.map((chapter) => (
-            <tr key={chapter.id} className="border-b">
-              <td className="p-2 text-center text-black">{chapter.title}</td>
-              <td className="p-2 text-center text-black">{chapter.pages}</td>
-              <td className="p-2 flex gap-2 justify-center">
-                <Button
-                  className="bg-purple-500 text-white hover:bg-purple-600 p-1 rounded"
-                  onClick={() => handleViewChapter(chapter.title)}
-                >
-                  <Eye size={18} />
-                </Button>
-                <Button
-                  className="bg-yellow-500 text-white hover:bg-yellow-600 p-1 rounded"
-                  onClick={() => handleEditChapter(chapter.title)}
-                >
-                  <Edit size={18} />
-                </Button>
-                <Button
-                  className="bg-red-500 text-white hover:bg-red-600 p-1 rounded"
-                  onClick={() => openDeleteModal(chapter.title)}
-                >
-                  <Trash size={18} />
-                </Button>
-              </td>
-            </tr>
-          ))}
-          {displayedChapters.length === 0 && (
-            <tr>
-              <td colSpan={3} className="p-2 text-center">Chưa có chapter nào</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-      {totalPages > 1 && (
-        <div className="mt-4 flex justify-center items-center gap-2">
+    <>
+      <Helmet>
+        <title>Quản lý chapter - {comicTitle}</title>
+      </Helmet>
+      <div className="p-6 max-w-4xl mx-auto">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-black text-center break-words">
+            Quản lý chapter - {comicTitle}
+          </h1>
+        </div>
+        <div className="flex justify-between items-center mb-6">
           <Button
-            className="px-3 py-1 bg-gray-200 text-black rounded hover:bg-gray-300 disabled:opacity-50"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
+            className="bg-gray-500 text-white hover:bg-gray-600 flex items-center gap-2"
+            onClick={() => navigate(-1)}
           >
-            &lt;
+            <ArrowLeft size={18} /> Quay lại
           </Button>
-          {getPageNumbers(totalPages).map((page, index) =>
-            typeof page === "number" ? (
-              <Button
-                key={page}
-                className={`px-3 py-1 ${currentPage === page
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-black hover:bg-gray-300"
-                  } rounded`}
-                onClick={() => handlePageChange(page)}
-              >
-                {page}
-              </Button>
-            ) : (
-              <span key={`ellipsis-${index}`} className="px-3 py-1 text-black">
-                ...
-              </span>
-            )
-          )}
           <Button
-            className="px-3 py-1 bg-gray-200 text-black rounded hover:bg-gray-300 disabled:opacity-50"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
+            className="bg-blue-500 text-white hover:bg-blue-600 flex items-center gap-2"
+            onClick={handleAddChapter}
           >
-            &gt;
+            <Plus size={18} /> Thêm chapter mới
           </Button>
         </div>
-      )}
-      {showDeleteModal && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          onClick={() => {
-            setShowDeleteModal(false);
-            setChapterToDelete(null);
-          }}
-        >
+        <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+          <thead>
+            <tr className="bg-gray-800 text-white text-center">
+              <th className="p-3">Chapter</th>
+              <th className="p-3">Số trang</th>
+              <th className="p-3">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            {displayedChapters.map((chapter) => (
+              <tr key={chapter.id} className="border-b">
+                <td className="p-2 text-center text-black">{chapter.title}</td>
+                <td className="p-2 text-center text-black">{chapter.pages}</td>
+                <td className="p-2 flex gap-2 justify-center">
+                  <Button
+                    className="bg-purple-500 text-white hover:bg-purple-600 p-1 rounded"
+                    onClick={() => handleViewChapter(chapter.title)}
+                  >
+                    <Eye size={18} />
+                  </Button>
+                  <Button
+                    className="bg-yellow-500 text-white hover:bg-yellow-600 p-1 rounded"
+                    onClick={() => handleEditChapter(chapter.title)}
+                  >
+                    <Edit size={18} />
+                  </Button>
+                  <Button
+                    className="bg-red-500 text-white hover:bg-red-600 p-1 rounded"
+                    onClick={() => openDeleteModal(chapter.title)}
+                  >
+                    <Trash size={18} />
+                  </Button>
+                </td>
+              </tr>
+            ))}
+            {displayedChapters.length === 0 && (
+              <tr>
+                <td colSpan={3} className="p-2 text-center">Chưa có chapter nào</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+        {totalPages > 1 && (
+          <div className="mt-4 flex justify-center items-center gap-2">
+            <Button
+              className="px-3 py-1 bg-gray-200 text-black rounded hover:bg-gray-300 disabled:opacity-50"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              &lt;
+            </Button>
+            {getPageNumbers(totalPages).map((page, index) =>
+              typeof page === "number" ? (
+                <Button
+                  key={page}
+                  className={`px-3 py-1 ${currentPage === page
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-black hover:bg-gray-300"
+                    } rounded`}
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </Button>
+              ) : (
+                <span key={`ellipsis-${index}`} className="px-3 py-1 text-black">
+                  ...
+                </span>
+              )
+            )}
+            <Button
+              className="px-3 py-1 bg-gray-200 text-black rounded hover:bg-gray-300 disabled:opacity-50"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              &gt;
+            </Button>
+          </div>
+        )}
+        {showDeleteModal && (
           <div
-            className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            onClick={() => {
+              setShowDeleteModal(false);
+              setChapterToDelete(null);
+            }}
           >
-            <h2 className="text-xl font-bold mb-4 text-black">Xác nhận xóa</h2>
-            <p className="mb-4 text-black">
-              Bạn có chắc chắn muốn xóa {chapterToDelete} không? Hành động này không thể hoàn tác.
-            </p>
-            <div className="flex justify-end gap-2">
-              <Button
-                type="button"
-                className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
-                onClick={() => {
-                  setShowDeleteModal(false);
-                  setChapterToDelete(null);
-                }}
-              >
-                Hủy
-              </Button>
-              <Button
-                type="button"
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                onClick={handleDeleteChapter}
-              >
-                Xác nhận
-              </Button>
+            <div
+              className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-xl font-bold mb-4 text-black">Xác nhận xóa</h2>
+              <p className="mb-4 text-black">
+                Bạn có chắc chắn muốn xóa {chapterToDelete} không? Hành động này không thể hoàn tác.
+              </p>
+              <div className="flex justify-end gap-2">
+                <Button
+                  type="button"
+                  className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setChapterToDelete(null);
+                  }}
+                >
+                  Hủy
+                </Button>
+                <Button
+                  type="button"
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                  onClick={handleDeleteChapter}
+                >
+                  Xác nhận
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 

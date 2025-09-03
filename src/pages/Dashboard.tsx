@@ -5,6 +5,7 @@ import { collection, onSnapshot, doc, updateDoc, setDoc, deleteDoc } from "fireb
 import defaultAvatar from "@/assets/anonymous.png";
 import { Button } from "@/components/ui/Button";
 import { db } from "@/lib/firebase";
+import { Helmet } from 'react-helmet-async';
 
 interface Stats {
   comics: number;
@@ -494,12 +495,12 @@ export default function Dashboard() {
             <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
               <thead>
                 <tr className="bg-gray-800 text-white text-center">
-                  <th className="p-3">Ảnh bìa</th>
-                  <th className="p-3">Tên truyện</th>
-                  <th className="p-3">Tác giả</th>
-                  <th className="p-3">Số chapter</th>
-                  <th className="p-3">Trạng thái</th>
-                  <th className="p-3">Thao tác</th>
+                  <th className="p-2">Ảnh bìa</th>
+                  <th className="p-2">Tên truyện</th>
+                  <th className="p-2">Tác giả</th>
+                  <th className="p-2">Số chapter</th>
+                  <th className="p-2">Trạng thái</th>
+                  <th className="p-2">Thao tác</th>
                 </tr>
               </thead>
               <tbody>
@@ -1011,26 +1012,31 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex min-h-screen w-full">
-      <aside className="w-64 bg-white shadow-md flex flex-col">
-        <nav className="flex-1">
-          {menuItems.map((item) => (
-            <Link
-              key={item.label}
-              to={item.path}
-              className={`flex items-center gap-3 px-4 py-2 hover:bg-gray-200 text-gray-700 ${location.pathname === item.path
+    <>
+      <Helmet>
+        <title>Dashboard</title>
+      </Helmet>
+      <div className="flex min-h-screen w-full">
+        <aside className="w-64 bg-white shadow-md flex flex-col">
+          <nav className="flex-1">
+            {menuItems.map((item) => (
+              <Link
+                key={item.label}
+                to={item.path}
+                className={`flex items-center gap-3 px-4 py-2 hover:bg-gray-200 text-gray-700 ${location.pathname === item.path
                   ? "bg-gray-200 font-semibold"
                   : ""
-                }`}
-            >
-              {item.icon}
-              <span>{item.label}</span>
-            </Link>
-          ))}
-        </nav>
-      </aside>
+                  }`}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </Link>
+            ))}
+          </nav>
+        </aside>
 
-      <main className="flex-1 bg-gray-100 p-6">{renderContent()}</main>
-    </div>
+        <main className="flex-1 bg-gray-100 p-6">{renderContent()}</main>
+      </div>
+    </>
   );
 }

@@ -7,15 +7,11 @@ import { Footer } from "@/components/layout/Footer";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { auth, googleProvider, db } from "@/lib/firebase";
 import { Eye, EyeOff } from "lucide-react";
-import {
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
+import { signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Helmet } from 'react-helmet-async';
 
 const toastedUsers = new Set<string>();
 
@@ -195,6 +191,9 @@ export const Login = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Đăng nhập</title>
+      </Helmet>
       <ToastContainer position="top-center" autoClose={3000} />
       <Header />
       <Navbar />

@@ -8,6 +8,7 @@ import { Header } from "@/components/layout/Header";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { onAuthStateChanged, updateProfile } from "firebase/auth";
+import { Helmet } from 'react-helmet-async';
 
 interface LocationState {
   displayName?: string;
@@ -104,6 +105,9 @@ export const UpdateProfile = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Cập nhật thông tin tài khoản</title>
+      </Helmet>
       <Header />
       <Navbar />
       <div className="flex justify-center mt-10">

@@ -48,11 +48,8 @@ export const HistoryTab = () => {
   const navigate = useNavigate();
   const { deviceHistory, accountHistory, isLoggedIn, remove } = useHistory();
   const [truyenData, setTruyenData] = useState<Record<string, TruyenData>>({});
-
-  // Chọn lịch sử dựa trên trạng thái đăng nhập
   const history = isLoggedIn ? accountHistory : deviceHistory;
 
-  // Tải dữ liệu truyện từ Firestore cho các mục trong recentHistory
   useEffect(() => {
     const fetchTruyenData = async () => {
       const newTruyenData: Record<string, TruyenData> = {};
@@ -77,7 +74,6 @@ export const HistoryTab = () => {
     }
   }, [history, isLoggedIn]);
 
-  // Không render nếu lịch sử rỗng
   if (!Array.isArray(history) || history.length === 0) {
     return null;
   }
@@ -133,7 +129,7 @@ export const HistoryTab = () => {
                           truyen.exists &&
                           navigate(`/truyen-tranh/${truyen.slug}/chuong-${getChapterNumber(item.chapter)}`)
                         }
-                        className={`text-[11px] truncate ${truyen.exists ? "text-gray-500 hover:text-blue-600 cursor-pointer" : "text-gray-400"}`}
+                        className={`text-[10px] truncate ${truyen.exists ? "text-gray-500 hover:text-blue-600 cursor-pointer" : "text-gray-400"}`}
                       >
                         Đọc tiếp {item.chapter}&gt;
                       </span>

@@ -7,17 +7,9 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  collection,
-  query,
-  where,
-  getDocs,
-  limit
-} from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, query, where, getDocs, limit } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from 'react-helmet-async';
 
 export const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -167,6 +159,9 @@ export const ForgotPassword = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Quên mật khẩu</title>
+      </Helmet>
       <Header />
       <Navbar />
 
